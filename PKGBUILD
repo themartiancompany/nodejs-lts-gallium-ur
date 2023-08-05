@@ -9,7 +9,7 @@
 # Contributor: TIanyi Cui <tianyicui@gmail.com>
 # Contributor: Pellegrino Prevete <pellegrinoprevete@gmail.com>
 
-_pkg="nodejs"
+_pkg="node"
 _pkgname="${_pkg}js"
 pkgname="${_pkgname}-lts-gallium"
 pkgver=16.13.0
@@ -36,7 +36,7 @@ _corepack=(
   "corepack: zero-runtime-dependency package acting"
   "as bridge between Node projects and their package managers.")
 optdepends=(
-  'npm: nodejs package manager'
+  "npm: ${_pkgname} package manager"
   "${_corepack[*]}")
 provides=("${_pkgname}=${pkgver}")
 conflicts=(nodejs)
