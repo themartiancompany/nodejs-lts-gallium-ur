@@ -29,7 +29,7 @@ depends=(
   # 'v8'
 )
 makedepends=(
-  'python'
+  "python<=3.10"
   'procps-ng'
 )
 _corepack=(
