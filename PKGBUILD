@@ -1,3 +1,7 @@
+# SPDX-License-Identifier: AGPL-3.0
+#
+# Maintainer:  Truocolo <truocolo@aol.com>
+# Maintainer:  Pellegrino Prevete <cGVsbGVncmlub3ByZXZldGVAZ21haWwuY29tCg== | base -d>
 # Maintainer: Felix Yan <felixonmars@archlinux.org>
 # Contributor  Bartłomiej Piotrowski <bpiotrowski@archlinux.org>
 # Contributor: Axel Navarro < navarroaxel at gmail >
@@ -7,7 +11,6 @@
 # Contributor: Dongsheng Cai <dongsheng at moodle dot com>
 # Contributor: Masutu Subric <masutu.arch at googlemail dot com>
 # Contributor: TIanyi Cui <tianyicui@gmail.com>
-# Contributor: Pellegrino Prevete <pellegrinoprevete@gmail.com>
 
 _pkg="node"
 _pkgname="${_pkg}js"
@@ -15,7 +18,10 @@ pkgname="${_pkgname}-lts-gallium"
 pkgver=16.13.0
 pkgrel=1
 pkgdesc='Evented I/O for V8 javascript'
-arch=('x86_64')
+arch=(
+  'x86_64'
+  'arm'
+)
 url="https://${_pkgname}.org"
 license=('MIT')
 depends=(
@@ -38,10 +44,16 @@ _corepack=(
 optdepends=(
   "npm: ${_pkgname} package manager"
   "${_corepack[*]}")
-provides=("${_pkgname}=${pkgver}")
-conflicts=(nodejs)
+provides=(
+  "${_pkgname}=${pkgver}"
+)
+conflicts=(
+  nodejs
+)
+_gh="https://github.com"
+_url="${_gh}/${_pkname}/${_pkg}"
 source=(
-  "https://github.com/${_pkgname}/${_pkg}/archive/v${pkgver}/${_pkgname}-${pkgver}.tar.gz"
+  "${_url}/archive/v${pkgver}/${_pkgname}-${pkgver}.tar.gz"
   system-c-ares.patch
 )
 sha512sums=(
@@ -50,7 +62,10 @@ sha512sums=(
 )
 
 prepare() {
-  patch -d "${_pkg}-${pkgver}" -Rp1 < \
+  patch \
+    -d \
+      "${_pkg}-${pkgver} \
+    -Rp1 < \
     system-c-ares.patch
 }
 
@@ -75,19 +90,22 @@ build() {
 }
 
 check() {
-  cd "${_pkg}-${pkgver}"
+  cd \
+    "${_pkg}-${pkgver}"
   make test || :
 }
 
 package() {
-  cd "${_pkg}-${pkgver}"
-
-  make DESTDIR="${pkgdir}" \
-       install
-
-  install -D \
-          -m644 LICENSE \
-          "${pkgdir}/usr/share/licenses/${_pkgname}/LICENSE"
+  cd \
+    "${_pkg}-${pkgver}"
+  make \
+    DESTDIR="${pkgdir}" \
+    install
+  install \
+    -D \
+    -m644 \
+    LICENSE \
+    "${pkgdir}/usr/share/licenses/${_pkgname}/LICENSE"
 }
 
 # vim:set ts=2 sw=2 et:
